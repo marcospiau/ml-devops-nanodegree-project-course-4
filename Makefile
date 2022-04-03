@@ -1,12 +1,13 @@
 create_conda_env:
 	conda env create --file=conda.yml
 
-create_virtualenv:
+create_virtualenv_dev:
 	test -d env || \
 		virtualenv env && \
 		source env/bin/activate && \
-		python3 -m pip install -U pip && \
-		pip install -r requirements.txt
+		python -m pip install -U pip && \
+		pip install -r requirements-dev.txt
+	
 
 clean_env:
 	rm -rf env
