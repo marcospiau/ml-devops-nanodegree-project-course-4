@@ -1,0 +1,13 @@
+black
+dvc[all]
+fastapi
+fastapi
+jupyter
+jupyterlab
+numpy
+pandas
+pylint
+pytest
+scikit-learn
+uvicorn
+yapf
