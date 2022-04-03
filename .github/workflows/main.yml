@@ -28,7 +28,7 @@ jobs:
         python -m pip install --upgrade pip # Upgrade pip to the latest version.
         pip install pytest # Install pytest.
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi # If we have a requirements.txt, then install it.
-        pip install -e . # install our package
+        # pip install -e . # install our package
     - name: Run flake8 linting
       run: |
         # stop the build if there are Python syntax errors or undefined names
