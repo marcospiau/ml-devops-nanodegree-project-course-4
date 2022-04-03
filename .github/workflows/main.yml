@@ -4,9 +4,11 @@ on: # When this action runs.
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 jobs:
   build:
 
@@ -26,10 +28,14 @@ jobs:
         python -m pip install --upgrade pip # Upgrade pip to the latest version.
         pip install pytest # Install pytest.
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi # If we have a requirements.txt, then install it.
-        pip intall -e . # install our package
+        pip install -e . # install our package
+    - name: Run flake8 linting
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest # Final action which runs pytest. If any test fails, then this Action fails.
       run: |
         pytest -vv .
-    - name: Run flake8 linting
-      run: |
-        flake8
+
