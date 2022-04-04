@@ -13,3 +13,4 @@ scikit-learn
 uvicorn
 uvicorn
 yapf
+pandas-profiling[notebook]

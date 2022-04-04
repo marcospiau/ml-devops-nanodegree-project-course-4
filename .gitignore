@@ -132,5 +132,5 @@ dmypy.json
 .idea/
 
 # data and model folders
-data/
-model/
+# data/
+# model/

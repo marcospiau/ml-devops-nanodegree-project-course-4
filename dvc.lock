@@ -1,0 +1,19 @@
+schema: '2.0'
+stages:
+  fix_spaces:
+    cmd: sed 's/, /,/g' data/census.csv > data/census-fix-spaces.csv
+    deps:
+    - path: data/census.csv
+      md5: 145de00f6e6053d3f7044628f9a5b5ff
+      size: 3974474
+    outs:
+    - path: data/census-fix-spaces.csv
+      md5: 12c208530a5680c15ae19b34152286dd
+      size: 3518606
+  remove_dups:
+    cmd: awk '{counts[$0]++;if (counts[$0] == 1) {print $0}}' data/census-fix-spaces.csv
+      > data/census-fix-spaces-nodups.csv
+    deps:
+    - path: data/census-fix-spaces.csv
+      md5: 12c208530a5680c15ae19b34152286dd
+      size: 3518606
