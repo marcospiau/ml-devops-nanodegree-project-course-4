@@ -6,9 +6,22 @@ stages:
     outs:
     - data/processed/census-fix-spaces.csv
   remove_dups:
-    cmd: awk '{counts[-zsh]++;if (counts[-zsh] == 1) {print -zsh}}' data/processed/census-fix-spaces.csv
+    cmd: awk '{counts[$0]++;if (counts[$0] == 1) {print $0}}' data/processed/census-fix-spaces.csv
       > data/processed/census-fix-spaces-nodups.csv
     deps:
     - data/processed/census-fix-spaces.csv
     outs:
     - data/processed/census-fix-spaces-nodups.csv
+  train_eval_model:
+    cmd: python3 starter/train_model.py
+    deps:
+    - data/processed/census-fix-spaces-nodups.csv
+    outs:
+    - data/train_test_data/X_test.joblib
+    - data/train_test_data/X_train.joblib
+    - model/encoder.joblib
+    - model/lb.joblib
+    - model/model.joblib
+    metrics:
+    - model/summary.json:
+        cache: false

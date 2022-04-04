@@ -11,7 +11,7 @@ stages:
       md5: 12c208530a5680c15ae19b34152286dd
       size: 3518606
   remove_dups:
-    cmd: awk '{counts[-zsh]++;if (counts[-zsh] == 1) {print -zsh}}' data/processed/census-fix-spaces.csv
+    cmd: awk '{counts[$0]++;if (counts[$0] == 1) {print $0}}' data/processed/census-fix-spaces.csv
       > data/processed/census-fix-spaces-nodups.csv
     deps:
     - path: data/processed/census-fix-spaces.csv
@@ -19,5 +19,30 @@ stages:
       size: 3518606
     outs:
     - path: data/processed/census-fix-spaces-nodups.csv
-      md5: 897316929176464ebc9ad085f31e7284
-      size: 2
+      md5: 23c4db7107d7efeb08e467e1405d3234
+      size: 3515984
+  train_eval_model:
+    cmd: python3 starter/train_model.py
+    deps:
+    - path: data/processed/census-fix-spaces-nodups.csv
+      md5: 23c4db7107d7efeb08e467e1405d3234
+      size: 3515984
+    outs:
+    - path: data/train_test_data/X_test.joblib
+      md5: bf79cf3c4780947ee2fcd6261908450e
+      size: 27851858
+    - path: data/train_test_data/X_train.joblib
+      md5: 3a3004edfbcd2881554a9b57f97f7391
+      size: 22281010
+    - path: model/encoder.joblib
+      md5: 93c7e444e4ef273b89739ebb1c9b2df7
+      size: 3873
+    - path: model/lb.joblib
+      md5: 68d67643c2f11e180eaa335146ade2ea
+      size: 403
+    - path: model/model.joblib
+      md5: 080b9d584bf3c4d41748c397245a42c4
+      size: 8138
+    - path: model/summary.json
+      md5: 3c4404b954a10fe8faaf9ba9a712c066
+      size: 256
