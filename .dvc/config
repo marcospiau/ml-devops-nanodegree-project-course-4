@@ -1,2 +1,5 @@
 [core]
     analytics = false
+    remote = dvc_remote
+['remote "dvc_remote"']
+    url = s3://mlops-nanodegree-project-3-bucket
