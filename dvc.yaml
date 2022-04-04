@@ -6,6 +6,9 @@ stages:
     outs:
     - data/census-fix-spaces.csv
   remove_dups:
-    cmd: awk '{counts[$0]++;if (counts[$0] == 1) {print $0}}' data/census-fix-spaces.csv > data/census-fix-spaces-nodups.csv
+    cmd: awk '{counts[-zsh]++;if (counts[-zsh] == 1) {print -zsh}}' data/census-fix-spaces.csv
+      > data/census-fix-spaces-nodups.csv
     deps:
     - data/census-fix-spaces.csv
+    outs:
+    - data/census-fix-spaces-nodups.csv

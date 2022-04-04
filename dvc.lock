@@ -11,9 +11,13 @@ stages:
       md5: 12c208530a5680c15ae19b34152286dd
       size: 3518606
   remove_dups:
-    cmd: awk '{counts[$0]++;if (counts[$0] == 1) {print $0}}' data/census-fix-spaces.csv
+    cmd: awk '{counts[-zsh]++;if (counts[-zsh] == 1) {print -zsh}}' data/census-fix-spaces.csv
       > data/census-fix-spaces-nodups.csv
     deps:
     - path: data/census-fix-spaces.csv
       md5: 12c208530a5680c15ae19b34152286dd
       size: 3518606
+    outs:
+    - path: data/census-fix-spaces-nodups.csv
+      md5: 897316929176464ebc9ad085f31e7284
+      size: 2
