@@ -1,5 +1,5 @@
 [core]
-    analytics = false
     remote = dvc_remote
+    autostage = true
 ['remote "dvc_remote"']
     url = s3://mlops-nanodegree-project-3-bucket

@@ -1,14 +1,14 @@
 stages:
   fix_spaces:
-    cmd: sed 's/, /,/g' data/census.csv > data/census-fix-spaces.csv
+    cmd: sed 's/, /,/g' data/raw/census.csv > data/processed/census-fix-spaces.csv
     deps:
-    - data/census.csv
+    - data/raw/census.csv
     outs:
-    - data/census-fix-spaces.csv
+    - data/processed/census-fix-spaces.csv
   remove_dups:
-    cmd: awk '{counts[-zsh]++;if (counts[-zsh] == 1) {print -zsh}}' data/census-fix-spaces.csv
-      > data/census-fix-spaces-nodups.csv
+    cmd: awk '{counts[-zsh]++;if (counts[-zsh] == 1) {print -zsh}}' data/processed/census-fix-spaces.csv
+      > data/processed/census-fix-spaces-nodups.csv
     deps:
-    - data/census-fix-spaces.csv
+    - data/processed/census-fix-spaces.csv
     outs:
-    - data/census-fix-spaces-nodups.csv
+    - data/processed/census-fix-spaces-nodups.csv
