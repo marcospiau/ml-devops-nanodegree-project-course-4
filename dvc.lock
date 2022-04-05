@@ -28,14 +28,14 @@ stages:
       md5: 23c4db7107d7efeb08e467e1405d3234
       size: 3515984
     - path: starter/train_model.py
-      md5: 370846eadabba24d056e61fa7c4d7b2b
-      size: 4047
+      md5: cf6d53d2a27dc7322da082620311db3e
+      size: 4048
     outs:
     - path: data/train_test_data/X_test.joblib
       md5: 1a691018f8b6dcdfa3c5905ccb206a70
       size: 28112154
     - path: data/train_test_data/X_train.joblib
-      md5: 3a107e07401dec03475a3b351b376f35
+      md5: 2a489a0a1c9e939fecdb85de330ed04b
       size: 22489242
     - path: model/encoder.joblib
       md5: a553f204feb7d25cff7013915fd7ce8a
@@ -44,8 +44,8 @@ stages:
       md5: 68d67643c2f11e180eaa335146ade2ea
       size: 403
     - path: model/model.joblib
-      md5: cabe40e64eef2990fdab621b5e54ff48
-      size: 7706
+      md5: 93eae9b22e54a9b1ddaed4c485b1b45b
+      size: 7994
     - path: model/summary.json
-      md5: 88fceda65a7a6790cb641b72ad805738
-      size: 269
+      md5: 4ae569cd6a1cdfd5441937014579706b
+      size: 268
