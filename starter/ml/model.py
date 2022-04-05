@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train) -> BaseEstimator:
+def train_model(X_train: np.array, y_train: np.array) -> BaseEstimator:
     """
     Trains a machine learning model and returns it.
 
@@ -52,12 +52,12 @@ def compute_model_metrics(y: np.array, preds: np.array) -> Dict[str, float]:
 # TODO: configure threshold
 # TODO: verify if data must be preprocessed prior to this point
 # TODO: fill docstring
-def inference(model, X):
+def inference(model: BaseEstimator, X: np.array) -> np.array:
     """ Run model inferences and return the predictions.
 
     Inputs
     ------
-    model : ???
+    model : BaseEstimator
         Trained machine learning model.
     X : np.array
         Data used for prediction.

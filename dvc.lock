@@ -27,22 +27,25 @@ stages:
     - path: data/processed/census-fix-spaces-nodups.csv
       md5: 23c4db7107d7efeb08e467e1405d3234
       size: 3515984
+    - path: starter/train_model.py
+      md5: 370846eadabba24d056e61fa7c4d7b2b
+      size: 4047
     outs:
     - path: data/train_test_data/X_test.joblib
-      md5: bf79cf3c4780947ee2fcd6261908450e
-      size: 27851858
+      md5: 1a691018f8b6dcdfa3c5905ccb206a70
+      size: 28112154
     - path: data/train_test_data/X_train.joblib
-      md5: 3a3004edfbcd2881554a9b57f97f7391
-      size: 22281010
+      md5: 3a107e07401dec03475a3b351b376f35
+      size: 22489242
     - path: model/encoder.joblib
-      md5: 93c7e444e4ef273b89739ebb1c9b2df7
-      size: 3873
+      md5: a553f204feb7d25cff7013915fd7ce8a
+      size: 3898
     - path: model/lb.joblib
       md5: 68d67643c2f11e180eaa335146ade2ea
       size: 403
     - path: model/model.joblib
-      md5: 080b9d584bf3c4d41748c397245a42c4
-      size: 8138
+      md5: cabe40e64eef2990fdab621b5e54ff48
+      size: 7706
     - path: model/summary.json
-      md5: 3c4404b954a10fe8faaf9ba9a712c066
-      size: 256
+      md5: 88fceda65a7a6790cb641b72ad805738
+      size: 269
