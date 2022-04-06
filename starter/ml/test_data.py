@@ -63,10 +63,11 @@ def test_target_cardinality():
     """Test if cardinality of target data is correct"""
     assert len(set(df[target_col])) == len(set(y_train))
 
+
 def test_features_cardinality():
     """Check if features cardinality are correct"""
     # One output column for each numeric column
     num_cols_len = len(num_cols)
     # One output column for each distinct value of categorical column
-    cat_cols_cardinality =  sum(len(set(df[col])) for col in cat_cols)
+    cat_cols_cardinality = sum(len(set(df[col])) for col in cat_cols)
     assert X_train.shape[1] == num_cols_len + cat_cols_cardinality
