@@ -6,11 +6,10 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from sklearn.model_selection import train_test_split
-
-
 from ml.data import process_data
-from ml.model import compute_model_metrics, inference, train_model
+from ml.model import (compute_metrics_by_groups, compute_model_metrics,
+                      inference, pretty_print_pandas, train_model)
+from sklearn.model_selection import train_test_split
 
 logging.basicConfig(format='%(asctime)s %(name)s %(levelname)-8s: %(message)s',
                     level=logging.INFO,
@@ -90,7 +89,7 @@ if __name__ == '__main__':
 
     # Process the test data with the process_data function.
 
-    X_test, y_test, _, _ = process_data(X=data,
+    X_test, y_test, _, _ = process_data(X=test,
                                         categorical_features=cat_features,
                                         label='salary',
                                         training=False,
@@ -119,3 +118,19 @@ if __name__ == '__main__':
         'train': train_metrics,
         'test': test_metrics
     }, MODEL_DIR / 'summary.json', 'Train and test metrics')
+
+    # Compute metrics on test by slice value and write to file
+
+    preds_test = inference(model, X_test)
+    write_buffer = []
+    for col in cat_features:
+        write_buffer.append(f'****Slice metrics for column {col}****')
+        write_buffer.append(
+            pretty_print_pandas(
+                compute_metrics_by_groups(y=y_test,
+                                          preds=inference(model, X_test),
+                                          groups=test[col]), col))
+    logging.info('Writing slices metrics for categorical features to file %s',
+                 MODEL_DIR / 'slice_metrics.txt')
+    with open(MODEL_DIR / 'slice_metrics.txt', 'w') as f:
+        f.write('\n'.join(write_buffer))
