@@ -3,6 +3,7 @@ fastapi==0.63.0
 flake8
 gunicorn
 jupyter
+more-itertools
 numpy==1.22.3
 pandas-profiling[notebook]==3.1.0
 pandas==1.4.2
