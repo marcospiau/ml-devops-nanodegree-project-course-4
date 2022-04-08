@@ -48,7 +48,7 @@ def inference(model: BaseEstimator, X: np.array) -> np.array:
 
     Args:
         model (BaseEstimator): Trained machine learning model.
-        X (np.array): Trained machine learning model.
+        X (np.array): Processed input data
 
     Returns:
         np.array: Predictions from the model.

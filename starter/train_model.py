@@ -1,4 +1,4 @@
-# Script to train machine learning model.
+"""Script to train machine learning model"""
 
 import json
 import logging
@@ -6,14 +6,30 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from ml.data import process_data
-from ml.model import (compute_metrics_by_groups, compute_model_metrics,
-                      inference, pretty_print_pandas, train_model)
 from sklearn.model_selection import train_test_split
+
+from starter.ml.data import process_data
+from starter.ml.model import (compute_metrics_by_groups, compute_model_metrics,
+                              inference, pretty_print_pandas, train_model)
 
 logging.basicConfig(format='%(asctime)s %(name)s %(levelname)-8s: %(message)s',
                     level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S')
+
+# TODO: make these globals configurable
+CAT_FEATURES = [
+    'workclass',
+    'education',
+    'marital-status',
+    'occupation',
+    'relationship',
+    'race',
+    'sex',
+    'native-country',
+]
+
+MODEL_DIR = Path('model')
+DATA_DIR = Path('data')
 
 
 def joblib_dump_and_log(obj, path: str, description: str) -> None:
@@ -45,9 +61,7 @@ if __name__ == '__main__':
     # Add the necessary imports for the starter code.
 
     # Setup directories
-    MODEL_DIR = Path('model')
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
-    DATA_DIR = Path('data')
     (DATA_DIR / 'train_test_data').mkdir(parents=True, exist_ok=True)
 
     # Add code to load in the data.
@@ -62,21 +76,10 @@ if __name__ == '__main__':
                                    test_size=0.20,
                                    stratify=data['salary'])
 
-    cat_features = [
-        'workclass',
-        'education',
-        'marital-status',
-        'occupation',
-        'relationship',
-        'race',
-        'sex',
-        'native-country',
-    ]
-
     logging.info('Running data preprocessing')
     X_train, y_train, encoder, lb = process_data(
         train,
-        categorical_features=cat_features,
+        categorical_features=CAT_FEATURES,
         label='salary',
         training=True)
     joblib_dump_and_log(X_train, DATA_DIR / 'train_test_data/X_train.joblib',
@@ -90,7 +93,7 @@ if __name__ == '__main__':
     # Process the test data with the process_data function.
 
     X_test, y_test, _, _ = process_data(X=test,
-                                        categorical_features=cat_features,
+                                        categorical_features=CAT_FEATURES,
                                         label='salary',
                                         training=False,
                                         encoder=encoder,
@@ -123,7 +126,7 @@ if __name__ == '__main__':
 
     preds_test = inference(model, X_test)
     write_buffer = []
-    for col in cat_features:
+    for col in CAT_FEATURES:
         write_buffer.append(f'****Slice metrics for column {col}****')
         write_buffer.append(
             pretty_print_pandas(
