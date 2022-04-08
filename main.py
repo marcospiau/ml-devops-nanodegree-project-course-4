@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from collections import OrderedDict
 
 import joblib
@@ -20,6 +21,12 @@ Welcome to my first model API!
 We use a simple decision tree to predict higher salaries.
 Feel free to reach me out at name@domain.com
 """
+
+if 'DYNO' in os.environ and os.path.isdir('.dvc'):
+    os.system('dvc config core.no_scm true')
+    if os.system('dvc pull') != 0:
+        exit('dvc pull failed')
+    os.system('rm -r .dvc .apt/usr/lib/dvc')
 
 app = FastAPI()
 
