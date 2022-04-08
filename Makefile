@@ -9,7 +9,6 @@ create_virtualenv_dev:
 		source env/bin/activate && \
 		python -m pip install -U pip && \
 		pip install -r requirements.txt
-	# python -m pip install -e .
 	
 clean_env:
 	rm -rf env
