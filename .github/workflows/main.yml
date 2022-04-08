@@ -32,31 +32,24 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         # AWS Secret Access Key. This input is required if running in the GitHub hosted environment. It is optional if running in a self-hosted environment that already has AWS credentials, for example on an EC2 instance.
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        # AWS Session Token
-#         aws-session-token: # optional
         # AWS Region, e.g. us-east-2
         aws-region: ${{ secrets.AWS_SECRET_REGION }}
-#         # Whether to set the AWS account ID for these credentials as a secret value, so that it is masked in logs. Valid values are 'true' and 'false'. Defaults to true
-#         mask-aws-account-id: # optional
-#         # Use the provided credentials to assume an IAM role and configure the Actions environment with the assumed role credentials rather than with the provided credentials
-#         role-to-assume: # optional
-#         # Use the web identity token file from the provided file system path in order to assume an IAM role using a web identity. E.g., from within an Amazon EKS worker node
-#         web-identity-token-file: # optional
-#         # Role duration in seconds (default: 6 hours)
-#         role-duration-seconds: # optional
-#         # Role session name (default: GitHubActions)
-#         role-session-name: # optional
-#         # The external ID of the role to assume
-#         role-external-id: # optional
-        # Skip session tagging during role assumption
-#         role-skip-session-tagging: # optional
+        # AWS Session Token
+#         aws-session-token: # optional
   
     - name: Install dependencies # The first step that isn't just calling another action.
       run: |
         python -m pip install --upgrade pip # Upgrade pip to the latest version.
         pip install pytest # Install pytest.
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi # If we have a requirements.txt, then install it.
-        # pip install -e . # install our package
+        pip install -e . # install our package
+        
+    - name: Setup DVC
+      uses: iterative/setup-dvc@v1
+      
+    - name: pull DVC data
+      run: dvc pull
+      
     - name: Run flake8 linting
       run: |
         # stop the build if there are Python syntax errors or undefined names
