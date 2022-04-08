@@ -48,7 +48,7 @@ jobs:
       uses: iterative/setup-dvc@v1
       
     - name: pull DVC data
-      run: dvc pull --recursive --glob "model/*"
+      run: dvc pull
       
     - name: Run flake8 linting
       run: |
