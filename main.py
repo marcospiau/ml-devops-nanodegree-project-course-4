@@ -1,3 +1,4 @@
+import json
 import logging
 from collections import OrderedDict
 
@@ -5,7 +6,7 @@ import joblib
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from starter.ml.data import process_data
 from starter.ml.model import inference
@@ -14,6 +15,11 @@ from starter.train_model import CAT_FEATURES
 logging.basicConfig(format='%(asctime)s %(name)s %(levelname)-8s: %(message)s',
                     level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S')
+WELCOME_MESSAGE = """\
+Welcome to my first model API!
+We use a simple decision tree to predict higher salaries.
+Feel free to reach me out at name@domain.com'
+"""
 
 app = FastAPI()
 
@@ -24,18 +30,21 @@ class Input(BaseModel):
     workclass: str
     fnlgt: int
     education: str
-    education_num: int
-    marital_status: str
+    education_num: int = Field(alias='education-num')
+    marital_status: str = Field(alias='marital-status')
     occupation: str
     relationship: str
     race: str
     sex: str
-    capital_gain: int
-    capital_loss: int
-    hours_per_week: int
-    native_country: str
+    capital_gain: int = Field(alias='capital-gain')
+    capital_loss: int = Field(alias='capital-loss')
+    hours_per_week: int = Field(alias='hours-per-week')
+    native_country: str = Field(alias='native-country')
 
     # salary: str
+    # Make possible request using both attribute name and field alias
+    class Config:
+        allow_population_by_field_name = True
 
     def to_pandas(self):
         # column names and order must be kept same as seen on training
@@ -80,13 +89,9 @@ async def make_predictions(input_body: Input):
 
     logging.info('Making prediction')
     prediction = inference(model=model, X=X).item()
-    return str({'prediction': prediction})
+    return json.dumps({'prediction': prediction})
 
 
 @app.get('/', response_class=PlainTextResponse)
 def welcome_message():
-    return (
-        'Welcome to my first model API!\n'
-        'We use a simple decision tree to predict higher salaries.\n'
-        'Feel free to reach me out at name@domain.com'
-    )
+    return WELCOME_MESSAGE
