@@ -18,7 +18,7 @@ logging.basicConfig(format='%(asctime)s %(name)s %(levelname)-8s: %(message)s',
 WELCOME_MESSAGE = """\
 Welcome to my first model API!
 We use a simple decision tree to predict higher salaries.
-Feel free to reach me out at name@domain.com'
+Feel free to reach me out at name@domain.com
 """
 
 app = FastAPI()
