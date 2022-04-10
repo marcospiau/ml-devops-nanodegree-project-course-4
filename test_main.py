@@ -43,7 +43,7 @@ def offline_inference_artifacts():
                               training=False,
                               encoder=encoder,
                               lb=lb)
-    offline_predictions = inference(model=model, X=X)
+    offline_predictions = lb.inverse_transform(inference(model=model, X=X))
     return {
         'offline_dataframe': offline_dataframe,
         'X': X,

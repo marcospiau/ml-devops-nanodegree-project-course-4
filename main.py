@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 from collections import OrderedDict
@@ -34,34 +33,37 @@ app = FastAPI()
 
 class Input(BaseModel):
     """Data structure used for model input"""
-    age: int
+    age: int = Field(example=39)
     workclass: Literal['?', 'Federal-gov', 'Local-gov', 'Never-worked',
                        'Private', 'Self-emp-inc', 'Self-emp-not-inc',
-                       'State-gov', 'Without-pay']
-    fnlgt: int
+                       'State-gov', 'Without-pay'] = Field(example='State-gov')
+    fnlgt: int = Field(example=77516)
     education: Literal['10th', '11th', '12th', '1st-4th', '5th-6th', '7th-8th',
                        '9th', 'Assoc-acdm', 'Assoc-voc', 'Bachelors',
                        'Doctorate', 'HS-grad', 'Masters', 'Preschool',
-                       'Prof-school', 'Some-college']
-    education_num: int = Field(alias='education-num')
+                       'Prof-school',
+                       'Some-college'] = Field(example='Bachelors')
+    education_num: int = Field(alias='education-num', example=13)
     marital_status: Literal['Divorced', 'Married-AF-spouse',
                             'Married-civ-spouse', 'Married-spouse-absent',
                             'Never-married', 'Separated',
-                            'Widowed'] = Field(alias='marital-status')
+                            'Widowed'] = Field(alias='marital-status',
+                                               example='Never-married')
     occupation: Literal['?', 'Adm-clerical', 'Armed-Forces', 'Craft-repair',
                         'Exec-managerial', 'Farming-fishing',
                         'Handlers-cleaners', 'Machine-op-inspct',
                         'Other-service', 'Priv-house-serv', 'Prof-specialty',
                         'Protective-serv', 'Sales', 'Tech-support',
-                        'Transport-moving']
+                        'Transport-moving'] = Field(example='Adm-clerical')
     relationship: Literal['Husband', 'Not-in-family', 'Other-relative',
-                          'Own-child', 'Unmarried', 'Wife']
+                          'Own-child', 'Unmarried',
+                          'Wife'] = Field(example='Not-in-family')
     race: Literal['Amer-Indian-Eskimo', 'Asian-Pac-Islander', 'Black', 'Other',
-                  'White']
-    sex: Literal['Female', 'Male']
-    capital_gain: int = Field(alias='capital-gain')
-    capital_loss: int = Field(alias='capital-loss')
-    hours_per_week: int = Field(alias='hours-per-week')
+                  'White'] = Field(example='White')
+    sex: Literal['Female', 'Male'] = Field(example='Male')
+    capital_gain: int = Field(alias='capital-gain', example=0)
+    capital_loss: int = Field(alias='capital-loss', example=2174)
+    hours_per_week: int = Field(alias='hours-per-week', example=40)
     native_country: Literal['?', 'Cambodia', 'Canada', 'China', 'Columbia',
                             'Cuba', 'Dominican-Republic', 'Ecuador',
                             'El-Salvador', 'England', 'France', 'Germany',
@@ -73,7 +75,8 @@ class Input(BaseModel):
                             'Philippines', 'Poland', 'Portugal', 'Puerto-Rico',
                             'Scotland', 'South', 'Taiwan', 'Thailand',
                             'Trinadad&Tobago', 'United-States', 'Vietnam',
-                            'Yugoslavia'] = Field(alias='native-country')
+                            'Yugoslavia'] = Field(alias='native-country',
+                                                  example='United-States')
 
     # salary: str
     # Make possible request using both attribute name and field alias
@@ -103,7 +106,7 @@ class Input(BaseModel):
         return df
 
 
-@app.post('/inference', response_class=PlainTextResponse)
+@app.post('/inference')
 async def make_predictions(input_body: Input):
     logging.info('Receiving prediction')
 
@@ -122,8 +125,8 @@ async def make_predictions(input_body: Input):
                               lb=lb)
 
     logging.info('Making prediction')
-    prediction = inference(model=model, X=X).item()
-    return json.dumps({'prediction': prediction})
+    prediction = lb.inverse_transform(inference(model=model, X=X)).item()
+    return {'prediction': prediction}
 
 
 @app.get('/', response_class=PlainTextResponse)
