@@ -6,7 +6,6 @@ from typing import Literal
 import joblib
 import pandas as pd
 from fastapi import FastAPI
-from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 
 from starter.ml.data import process_data
@@ -106,8 +105,20 @@ class Input(BaseModel):
         return df
 
 
-@app.post('/inference')
-async def make_predictions(input_body: Input):
+class Output(BaseModel):
+    salary: Literal['<=50K', '>50K']
+
+
+@app.post('/inference', response_model=Output)
+async def make_predictions(input_body: Input) -> Output:
+    """Preprocess and make predictions from input data.
+
+    Args:
+        input_body (Input): raw input data
+
+    Returns:
+        Output: prediction
+    """
     logging.info('Receiving prediction')
 
     logging.info('Receiving model artifacts')
@@ -126,9 +137,11 @@ async def make_predictions(input_body: Input):
 
     logging.info('Making prediction')
     prediction = lb.inverse_transform(inference(model=model, X=X)).item()
+    return Output(salary=prediction)
     return {'prediction': prediction}
 
 
-@app.get('/', response_class=PlainTextResponse)
+@app.get('/')
 def welcome_message():
-    return WELCOME_MESSAGE
+    # This message could be handled by a frontend
+    return {'welcome_message': WELCOME_MESSAGE}
