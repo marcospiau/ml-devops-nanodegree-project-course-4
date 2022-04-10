@@ -138,7 +138,6 @@ async def make_predictions(input_body: Input) -> Output:
     logging.info('Making prediction')
     prediction = lb.inverse_transform(inference(model=model, X=X)).item()
     return Output(salary=prediction)
-    return {'prediction': prediction}
 
 
 @app.get('/')
