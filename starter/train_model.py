@@ -134,6 +134,6 @@ if __name__ == '__main__':
                                           preds=inference(model, X_test),
                                           groups=test[col]), col))
     logging.info('Writing slices metrics for categorical features to file %s',
-                 MODEL_DIR / 'slice_metrics.txt')
-    with open(MODEL_DIR / 'slice_metrics.txt', 'w') as f:
+                 MODEL_DIR / 'slice_output.txt')
+    with open(MODEL_DIR / 'slice_output.txt', 'w') as f:
         f.write('\n'.join(write_buffer))

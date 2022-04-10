@@ -23,7 +23,8 @@ stages:
     - model/encoder.joblib
     - model/lb.joblib
     - model/model.joblib
-    - model/slice_metrics.txt
+    - model/slice_output.txt
+
     metrics:
     - model/summary.json:
         cache: false
