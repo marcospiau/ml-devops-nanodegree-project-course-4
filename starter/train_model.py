@@ -74,7 +74,8 @@ if __name__ == '__main__':
     logging.info('Running train/test split')
     train, test = train_test_split(data,
                                    test_size=0.20,
-                                   stratify=data['salary'])
+                                   stratify=data['salary'],
+                                   random_state=42)
 
     logging.info('Running data preprocessing')
     X_train, y_train, encoder, lb = process_data(
