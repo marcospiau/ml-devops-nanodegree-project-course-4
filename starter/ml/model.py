@@ -7,6 +7,7 @@ import tabulate
 from sklearn.base import BaseEstimator
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.tree import DecisionTreeClassifier
+from starter import RANDOM_SEED
 
 
 # Optional: implement hyperparameter tuning.
@@ -20,7 +21,7 @@ def train_model(X_train: np.array, y_train: np.array) -> BaseEstimator:
     Returns:
         BaseEstimator: Trained machine learning model.
     """
-    model = DecisionTreeClassifier(max_depth=6)
+    model = DecisionTreeClassifier(max_depth=6, random_state=RANDOM_SEED)
     model.fit(X_train, y_train)
     return model
 

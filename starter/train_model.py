@@ -8,6 +8,7 @@ import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from starter import RANDOM_SEED
 from starter.ml.data import process_data
 from starter.ml.model import (compute_metrics_by_groups, compute_model_metrics,
                               inference, pretty_print_pandas, train_model)
@@ -74,7 +75,8 @@ if __name__ == '__main__':
     logging.info('Running train/test split')
     train, test = train_test_split(data,
                                    test_size=0.20,
-                                   stratify=data['salary'])
+                                   stratify=data['salary'],
+                                   random_state=RANDOM_SEED)
 
     logging.info('Running data preprocessing')
     X_train, y_train, encoder, lb = process_data(
@@ -134,6 +136,6 @@ if __name__ == '__main__':
                                           preds=inference(model, X_test),
                                           groups=test[col]), col))
     logging.info('Writing slices metrics for categorical features to file %s',
-                 MODEL_DIR / 'slice_metrics.txt')
-    with open(MODEL_DIR / 'slice_metrics.txt', 'w') as f:
+                 MODEL_DIR / 'slice_output.txt')
+    with open(MODEL_DIR / 'slice_output.txt', 'w') as f:
         f.write('\n'.join(write_buffer))
