@@ -32,37 +32,34 @@ app = FastAPI()
 
 class Input(BaseModel):
     """Data structure used for model input"""
-    age: int = Field(example=39)
+    age: int = 0
     workclass: Literal['?', 'Federal-gov', 'Local-gov', 'Never-worked',
                        'Private', 'Self-emp-inc', 'Self-emp-not-inc',
-                       'State-gov', 'Without-pay'] = Field(example='State-gov')
-    fnlgt: int = Field(example=77516)
+                       'State-gov', 'Without-pay']
+    fnlgt: int
     education: Literal['10th', '11th', '12th', '1st-4th', '5th-6th', '7th-8th',
                        '9th', 'Assoc-acdm', 'Assoc-voc', 'Bachelors',
                        'Doctorate', 'HS-grad', 'Masters', 'Preschool',
-                       'Prof-school',
-                       'Some-college'] = Field(example='Bachelors')
-    education_num: int = Field(alias='education-num', example=13)
+                       'Prof-school', 'Some-college']
+    education_num: int = Field(alias='education-num')
     marital_status: Literal['Divorced', 'Married-AF-spouse',
                             'Married-civ-spouse', 'Married-spouse-absent',
                             'Never-married', 'Separated',
-                            'Widowed'] = Field(alias='marital-status',
-                                               example='Never-married')
+                            'Widowed'] = Field(alias='marital-status')
     occupation: Literal['?', 'Adm-clerical', 'Armed-Forces', 'Craft-repair',
                         'Exec-managerial', 'Farming-fishing',
                         'Handlers-cleaners', 'Machine-op-inspct',
                         'Other-service', 'Priv-house-serv', 'Prof-specialty',
                         'Protective-serv', 'Sales', 'Tech-support',
-                        'Transport-moving'] = Field(example='Adm-clerical')
+                        'Transport-moving']
     relationship: Literal['Husband', 'Not-in-family', 'Other-relative',
-                          'Own-child', 'Unmarried',
-                          'Wife'] = Field(example='Not-in-family')
+                          'Own-child', 'Unmarried', 'Wife']
     race: Literal['Amer-Indian-Eskimo', 'Asian-Pac-Islander', 'Black', 'Other',
-                  'White'] = Field(example='White')
-    sex: Literal['Female', 'Male'] = Field(example='Male')
-    capital_gain: int = Field(alias='capital-gain', example=0)
-    capital_loss: int = Field(alias='capital-loss', example=2174)
-    hours_per_week: int = Field(alias='hours-per-week', example=40)
+                  'White']
+    sex: Literal['Female', 'Male']
+    capital_gain: int = Field(alias='capital-gain')
+    capital_loss: int = Field(alias='capital-loss')
+    hours_per_week: int = Field(alias='hours-per-week')
     native_country: Literal['?', 'Cambodia', 'Canada', 'China', 'Columbia',
                             'Cuba', 'Dominican-Republic', 'Ecuador',
                             'El-Salvador', 'England', 'France', 'Germany',
@@ -74,13 +71,30 @@ class Input(BaseModel):
                             'Philippines', 'Poland', 'Portugal', 'Puerto-Rico',
                             'Scotland', 'South', 'Taiwan', 'Thailand',
                             'Trinadad&Tobago', 'United-States', 'Vietnam',
-                            'Yugoslavia'] = Field(alias='native-country',
-                                                  example='United-States')
+                            'Yugoslavia'] = Field(alias='native-country')
 
     # salary: str
     # Make possible request using both attribute name and field alias
     class Config:
         allow_population_by_field_name = True
+        schema_extra = {
+            'example': {
+                'age': 39,
+                'workclass': 'State-gov',
+                'fnlgt': 77516,
+                'education': 'Bachelors',
+                'education-num': 13,
+                'marital-status': 'Never-married',
+                'occupation': 'Adm-clerical',
+                'relationship': 'Not-in-family',
+                'race': 'White',
+                'sex': 'Male',
+                'capital-gain': 0,
+                'capital-loss': 2174,
+                'hours-per-week': 40,
+                'native-country': 'United-States'
+            }
+        }
 
     def to_pandas(self):
         # column names and order must be kept same as seen on training

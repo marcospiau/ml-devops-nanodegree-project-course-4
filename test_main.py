@@ -80,3 +80,40 @@ def test_malformed_inference_request(offline_inference_artifacts):
     raw_data = offline_inference_artifacts['offline_dataframe'].iloc[0]
     r = client.post('/anything', json=raw_data.to_dict())
     assert r.status_code != 200
+
+
+# PS.: The two tests below are redundant to test_prediction_match, which
+# already performs tests for the two target levels, but I included them to
+# explicitly pass the requirements on rubric and also sanitycheck.py
+
+
+def test_prediction_le_50k(offline_inference_artifacts):
+    """Test contents and return code for examples with predictions with value
+        '<=50K'
+    """
+    # raw data as read from file
+    raw_data = offline_inference_artifacts['offline_dataframe']
+    parsed_data = raw_data.to_dict(orient='records')
+    offline_predictions = offline_inference_artifacts['offline_predictions']
+    for raw_json_input, expected_prediction in zip(parsed_data,
+                                                   offline_predictions):
+        if expected_prediction == '<=50K':
+            r = client.post('/inference', json=raw_json_input)
+            assert r.status_code == 200
+            assert r.json() == Output(salary=expected_prediction).dict()
+
+
+def test_prediction_gt_50k(offline_inference_artifacts):
+    """Test contents and return code for examples with predictions with value
+        '>50K'
+    """
+    # raw data as read from file
+    raw_data = offline_inference_artifacts['offline_dataframe']
+    parsed_data = raw_data.to_dict(orient='records')
+    offline_predictions = offline_inference_artifacts['offline_predictions']
+    for raw_json_input, expected_prediction in zip(parsed_data,
+                                                   offline_predictions):
+        if expected_prediction == '>50K':
+            r = client.post('/inference', json=raw_json_input)
+            assert r.status_code == 200
+            assert r.json() == Output(salary=expected_prediction).dict()
