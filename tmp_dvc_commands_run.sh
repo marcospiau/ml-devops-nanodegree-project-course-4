@@ -22,5 +22,6 @@ dvc run \
 -o model/encoder.joblib \
 -o model/lb.joblib \
 -o model/model.joblib \
+-o model/slice_output.txt \
 -M model/summary.json \
 python3 starter/train_model.py
