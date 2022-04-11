@@ -26,6 +26,7 @@ Below we have the directory structure and annotations for relevant directoreis a
 |-- dvc_on_heroku_instructions.md
 |-- main.py # main app functions
 |-- model # model artifacts and metrics
+|   |-- slice_output.txt  # metrics on slices of categorical variables
 |   `-- summary.json
 |-- model_card.md
 |-- EDA notebooks
@@ -97,4 +98,4 @@ stages:
         cache: false
 ```
 
-PS.: The state of this repo considered during submission can be acessed on [0.0.0](https://github.com/marcospiau/ml-devops-nanodegree-project-course-4/releases/tag/0.0.0).
+PS.: The state of this repo considered during submission can be acessed on [0.0.1](https://github.com/marcospiau/ml-devops-nanodegree-project-course-4/releases/tag/0.0.1).
