@@ -95,4 +95,6 @@ stages:
     metrics:
     - model/summary.json:
         cache: false
-    ```
+```
+
+PS.: The state of this repo considered during submission is [v.0.0.0](https://github.com/marcospiau/ml-devops-nanodegree-project-course-4/releases/tag/0.0.0).
